@@ -5,9 +5,8 @@ const { Global, Country } = require('./db.js')
 
 app = express()
 
-cron.schedule('* * * * *', async function () {
+cron.schedule('0 * * * *', async function () {
   try {
-    console.log('running a task every minute');
     const response = await got('https://api.covid19api.com/summary', { responseType: 'json' })
 
 
@@ -30,10 +29,12 @@ cron.schedule('* * * * *', async function () {
     }))
 
     await Country.insertMany(data)
+
+    console.log('Getting data done')
   }
   catch (e) {
     console.log(e)
   }
 });
 
-app.listen(3000);
+app.listen(3001);
